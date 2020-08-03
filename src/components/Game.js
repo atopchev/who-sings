@@ -10,20 +10,18 @@ import { asyncForEach } from '../helpers';
  * Second, it fetches n tracks, and the lyrics for each track. 
  * Lasty, it renders the actual QuizComponent with appropriate data. 
  */
-class QuizCardWrapper extends Component {
+class Game extends Component {
     constructor(props) {
         super(props);
         this.key = process.env.REACT_APP_API_KEY;
-        this.handleNewGame = this.handleNewGame.bind();
-    }
-
-    state = {
-        numQuestions: 3, 
-        tracks: [],
-        artistChoices: [],
-        attempted: false,
-        lyricIdx: 0,
-        score: 0
+        this.state = {
+            numQuestions: 3,
+            tracks: [],
+            artistChoices: [],
+            attempted: false,
+            lyricIdx: 0,
+            score: 0
+        };
     };
 
     fetchTracks = async (key) => {
@@ -44,6 +42,7 @@ class QuizCardWrapper extends Component {
         const json = await res.json();
         const names = [];
         json.message.body.artist_list.forEach(({ artist }) => names.push(artist.artist_name));
+
         return names;
     };
 
@@ -51,6 +50,10 @@ class QuizCardWrapper extends Component {
         this.setState({
             // artistChoices: this.fetchArtists(this.key)
             // tracks: this.fetchTracks(this.key),
+            numQuestions: 3,
+            attempted: false,
+            lyricIdx: 0,
+            score: 0,
             tracks: [
                 {
                     track: {
@@ -74,8 +77,8 @@ class QuizCardWrapper extends Component {
                     }
                 },
             ],
-            artists: ['taylor', 'harry', 'hermione', 'ron', 'snape', 'dumbledore', 'bill', 'sally', 'angela', 'alissa']
-        })
+            artistChoices: ['taylor', 'harry', 'hermione', 'ron', 'snape', 'dumbledore', 'bill', 'sally', 'angela', 'alissa']
+        }, () => console.log(this.state));
     }
 
     componentDidMount() {
@@ -99,8 +102,8 @@ class QuizCardWrapper extends Component {
                         name: "california"
                     }},
                 ],
-            artists: ['taylor', 'harry', 'hermione', 'ron', 'snape', 'dumbledore', 'bill', 'sally', 'angela', 'alissa']
-        })
+            artistChoices: ['taylor', 'harry', 'hermione', 'ron', 'snape', 'dumbledore', 'bill', 'sally', 'angela', 'alissa']
+        });
     };
 
     render() {
@@ -111,7 +114,7 @@ class QuizCardWrapper extends Component {
     };
 };
 
-export default QuizCardWrapper;
+export default Game;
 
 
 

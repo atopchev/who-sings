@@ -11,11 +11,12 @@ class QuizCard extends Component {
         super(props); 
         this.state = this.props.state;
         this.handleAttempt = this.handleAttempt.bind(this);
-        this.handleNewGame = this.state.handleNewGame.bind(this);
+        this.handleNewGame = this.props.handleNewGame.bind(this);
+
     }
 
     generateChoices() {
-        const { tracks, lyricIdx, artists} = this.state;
+        const { tracks, lyricIdx, artistChoices} = this.state;
         const correctAnswer = tracks[lyricIdx].track.artist_name;
         const choices = [
             <Artist 
@@ -29,7 +30,7 @@ class QuizCard extends Component {
         // concat correct choice w wrongchoices
         // generate Artist components together
         while (choices.length < 3) {
-            let randomArtist = artists[Math.floor(Math.random() * 10)];
+            let randomArtist = artistChoices[Math.floor(Math.random() * 10)];
             choices.push( 
                 <Artist 
                     name={randomArtist} 
@@ -56,16 +57,15 @@ class QuizCard extends Component {
     handleGameOver(){
         return(
             <>
-                <header>Game Over ! </header>
+                <header>Game Over!</header>
                 <Score score={this.state.score} n={this.state.numQuestions} />
-                <NewGameBtn callback={this.props.handleNewGame}/>
+                <NewGameBtn callback={this.handleNewGame}/>
             </>
         )
     }
 
     render() {
-        console.log(this.state.lyricIdx, this.state.numQuestions)
-        if (this.state.lyricIdx >= this.state.numQuestions - 1) return this.handleGameOver();
+        if (this.state.lyricIdx >= this.state.numQuestions) return this.handleGameOver();
         const { track } = this.state.tracks[this.state.lyricIdx]
         const choices = this.generateChoices();
         
