@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 const Artist = ({ name, answer, handleAttempt }) => {
 
@@ -7,8 +7,8 @@ const Artist = ({ name, answer, handleAttempt }) => {
 
         let btn = document.getElementById(name);
         btn.style.backgroundColor = (answer) ? 'lightgreen' : 'salmon';
-        setTimeout(handleAttempt.bind(null, answer), 1500); // explore not using setTimeout
-        // handleAttempt.bind(null, answer)();
+        // setTimeout(handleAttempt.bind(null, answer), 1000); // explore not using setTimeout
+        handleAttempt.bind(null, answer)();
     }
 
     return (

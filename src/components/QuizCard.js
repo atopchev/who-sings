@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import Lyric from './Lyric';
 import Artist from './Artist';
 import Score from './Score';
+import { shuffle } from '../helpers';
+import NewGameBtn from './NewGameBtn';
 
 class QuizCard extends Component {
     constructor(props) {
         super(props); 
         this.state = this.props.state;
-        this.handleAttempt = this.handleAttempt.bind(this)
+        this.handleAttempt = this.handleAttempt.bind(this);
+        this.handleNewGame = this.state.handleNewGame.bind(this);
     }
 
     generateChoices() {
@@ -41,23 +45,35 @@ class QuizCard extends Component {
 
     handleAttempt(ans) {
         let updatedLyricIdx = this.state.lyricIdx + 1;
+        let updatedScore = (ans) ? this.state.score + 100 : this.state.score - 100;
         this.setState({ 
             attempted: !(this.state.attempted), 
             lyricIdx: updatedLyricIdx ,
-            score: (ans) ? this.state.score += 100 : this.state.score -= 100 
+            score: updatedScore 
         });
     }
 
+    handleGameOver(){
+        return(
+            <>
+                <header>Game Over ! </header>
+                <Score score={this.state.score} n={this.state.numQuestions} />
+                <NewGameBtn callback={this.props.handleNewGame}/>
+            </>
+        )
+    }
+
     render() {
+        console.log(this.state.lyricIdx, this.state.numQuestions)
+        if (this.state.lyricIdx >= this.state.numQuestions - 1) return this.handleGameOver();
         const { track } = this.state.tracks[this.state.lyricIdx]
-        console.log(this.state.tracks);
         const choices = this.generateChoices();
         
         return (
             <div className='quiz-card'>
                 <Lyric lyrics={track.lyrics} />
                 { shuffle(choices) }
-                <Score score={this.state.score} n={this.state.n} />
+                <Score score={this.state.score} n={this.state.numQuestions} />
             </div>
         )
     }
@@ -65,11 +81,5 @@ class QuizCard extends Component {
 
 export default QuizCard;
 
-function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    };
-    return arr;
-};
+
 
