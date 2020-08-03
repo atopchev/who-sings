@@ -1,16 +1,20 @@
 import React from 'react';
-import './App.css';
+import QuizCardWrapper from './components/QuizCardWrapper';
+import { Route, Switch } from 'react-router-dom';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header"> Welcome to WhoSings!
-      </header>
+      <h1 className="App-h1"> Welcome to WhoSings!</h1>
+      <Switch>
+        <Route exact path="/" component={QuizCardWrapper} />
+        <Route exact path="/global-rankings" />
+        <Route exact path="/my-scores" />
+      </Switch>
 
-      <button> New Game </button>
     </div>
   );
-}
+};
 
 
 export default App;
