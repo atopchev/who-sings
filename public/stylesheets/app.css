@@ -55,3 +55,11 @@ button {
     margin: 10px 10px;
     border: none;
 }
+
+.table-header {
+    margin-bottom: 10vh;
+}
+
+td {
+    text-align: left;
+}

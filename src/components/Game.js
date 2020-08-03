@@ -24,7 +24,7 @@ class Game extends Component {
             score: 0
         };
         this.handlePlayerName = this.handlePlayerName.bind(this);
-        this.triggerNewPlayer = this.handleNewGame.bind(this);
+        this.triggerNewPlayer = this.triggerNewPlayer.bind(this);
     };
 
     fetchTracks = async (key) => {
@@ -49,11 +49,57 @@ class Game extends Component {
         return names;
     };
 
+    triggerNewPlayer() {
+      this.setState({
+        // artistChoices: this.fetchArtists(this.key),
+        // tracks: this.fetchTracks(this.key),
+        player: "",
+        numQuestions: 3,
+        attempted: false,
+        lyricIdx: 0,
+        score: 0,
+        tracks: [
+          {
+            track: {
+              lyrics: "hey there delilah what's it like in NYC...",
+              artist_name: "Plain White Tees",
+              name: "Hey there delilah",
+            },
+          },
+          {
+            track: {
+              lyrics: "hey jude...",
+              artist_name: "The Beatles",
+              name: "Hey jude",
+            },
+          },
+          {
+            track: {
+              lyrics:
+                "california, knows how to party, californiaaa, knows how...",
+              artist_name: "tupac",
+              name: "california",
+            },
+          },
+        ],
+        artistChoices: [
+          "taylor",
+          "harry",
+          "hermione",
+          "ron",
+          "snape",
+          "dumbledore",
+          "bill",
+          "sally",
+          "angela",
+          "alissa",
+        ],
+      });
+    }
     handleNewGame() {
         return this.setState({
-            // artistChoices: this.fetchArtists(this.key)
+            // artistChoices: this.fetchArtists(this.key),
             // tracks: this.fetchTracks(this.key),
-            player: '',
             numQuestions: 3,
             attempted: false,
             lyricIdx: 0,
@@ -88,34 +134,22 @@ class Game extends Component {
     handlePlayerName(e) {
         e.preventDefault();
         let name = document.getElementById('playerName').value;
-        this.handleNewGame()
-        this.setState({ player: name });
-        
+        // this.handleNewGame();
+        this.setState({ player: name }); 
     }
-    // componentDidMount() {
+
+    componentWillMount() {
+      this.triggerNewPlayer();
+    }
+
+    // async componentDidMount() {
+    //     const artists = await this.fetchArtists(this.key);
+    //     const tracks = await this.fetchTracks(this.key);
     //     this.setState({
-    //         // artistChoices: this.fetchArtists(this.key)
-    //         // tracks: this.fetchTracks(this.key),
-    //         tracks: [
-    //                 {track: {
-    //                     lyrics: "hey there delilah what's it like in NYC...",
-    //                     artist_name: "Plain White Tees",
-    //                     name: "Hey there delilah"
-    //                 }},
-    //                 {track: {
-    //                     lyrics: "hey jude...",
-    //                     artist_name: "The Beatles",
-    //                     name: "Hey jude"
-    //                 }},
-    //                 {track: {
-    //                     lyrics: "california, knows how to party, californiaaa, knows how...",
-    //                     artist_name: "tupac",
-    //                     name: "california"
-    //                 }},
-    //             ],
-    //         artistChoices: ['taylor', 'harry', 'hermione', 'ron', 'snape', 'dumbledore', 'bill', 'sally', 'angela', 'alissa']
-    //     });
-    // };
+    //         artistChoices: artists,
+    //         tracks
+    //     })
+    // }
 
     render() {
         const returnValue = !this.state.player.length ? (
@@ -135,7 +169,7 @@ class Game extends Component {
             triggerNewPlayer={this.triggerNewPlayer}
           />
         ); 
-
+        if (!this.state.artistChoices.length) return null;
         return returnValue;
     };
 };
