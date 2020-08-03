@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import Lyric from './Lyric';
 import Artist from './Artist';
-import Score from './Score';
+import BottomNav from './BottomNav';
 import { shuffle } from '../helpers';
 import NewGameBtn from './NewGameBtn';
 
@@ -58,8 +58,12 @@ class QuizCard extends Component {
         return(
             <>
                 <header>Game Over!</header>
-                <Score score={this.state.score} n={this.state.numQuestions} />
+                <BottomNav
+                    score={this.state.score}
+                    n={this.state.numQuestions}
+                    idx={this.state.lyricIdx} />
                 <NewGameBtn callback={this.handleNewGame}/>
+                <NewGameBtn callback={this.props.triggerNewPlayer} btnText='New Player'/>
             </>
         )
     }
@@ -73,7 +77,10 @@ class QuizCard extends Component {
             <div className='quiz-card'>
                 <Lyric lyrics={track.lyrics} />
                 { shuffle(choices) }
-                <Score score={this.state.score} n={this.state.numQuestions} />
+                <BottomNav 
+                    score={this.state.score} 
+                    n={this.state.numQuestions} 
+                    idx={this.state.lyricIdx}/>
             </div>
         )
     }

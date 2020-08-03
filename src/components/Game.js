@@ -15,6 +15,7 @@ class Game extends Component {
         super(props);
         this.key = process.env.REACT_APP_API_KEY;
         this.state = {
+            player: '',
             numQuestions: 3,
             tracks: [],
             artistChoices: [],
@@ -22,6 +23,8 @@ class Game extends Component {
             lyricIdx: 0,
             score: 0
         };
+        this.handlePlayerName = this.handlePlayerName.bind(this);
+        this.triggerNewPlayer = this.handleNewGame.bind(this);
     };
 
     fetchTracks = async (key) => {
@@ -47,9 +50,10 @@ class Game extends Component {
     };
 
     handleNewGame() {
-        this.setState({
+        return this.setState({
             // artistChoices: this.fetchArtists(this.key)
             // tracks: this.fetchTracks(this.key),
+            player: '',
             numQuestions: 3,
             attempted: false,
             lyricIdx: 0,
@@ -78,39 +82,54 @@ class Game extends Component {
                 },
             ],
             artistChoices: ['taylor', 'harry', 'hermione', 'ron', 'snape', 'dumbledore', 'bill', 'sally', 'angela', 'alissa']
-        }, () => console.log(this.state));
+        });
     }
 
-    componentDidMount() {
-        this.setState({
-            // artistChoices: this.fetchArtists(this.key)
-            // tracks: this.fetchTracks(this.key),
-            tracks: [
-                    {track: {
-                        lyrics: "hey there delilah what's it like in NYC...",
-                        artist_name: "Plain White Tees",
-                        name: "Hey there delilah"
-                    }},
-                    {track: {
-                        lyrics: "hey jude...",
-                        artist_name: "The Beatles",
-                        name: "Hey jude"
-                    }},
-                    {track: {
-                        lyrics: "california, knows how to party, californiaaa, knows how...",
-                        artist_name: "tupac",
-                        name: "california"
-                    }},
-                ],
-            artistChoices: ['taylor', 'harry', 'hermione', 'ron', 'snape', 'dumbledore', 'bill', 'sally', 'angela', 'alissa']
-        });
-    };
+    handlePlayerName(e) {
+        e.preventDefault();
+        let name = document.getElementById('playerName').value;
+        this.handleNewGame()
+        this.setState({ player: name });
+        
+    }
+    // componentDidMount() {
+    //     this.setState({
+    //         // artistChoices: this.fetchArtists(this.key)
+    //         // tracks: this.fetchTracks(this.key),
+    //         tracks: [
+    //                 {track: {
+    //                     lyrics: "hey there delilah what's it like in NYC...",
+    //                     artist_name: "Plain White Tees",
+    //                     name: "Hey there delilah"
+    //                 }},
+    //                 {track: {
+    //                     lyrics: "hey jude...",
+    //                     artist_name: "The Beatles",
+    //                     name: "Hey jude"
+    //                 }},
+    //                 {track: {
+    //                     lyrics: "california, knows how to party, californiaaa, knows how...",
+    //                     artist_name: "tupac",
+    //                     name: "california"
+    //                 }},
+    //             ],
+    //         artistChoices: ['taylor', 'harry', 'hermione', 'ron', 'snape', 'dumbledore', 'bill', 'sally', 'angela', 'alissa']
+    //     });
+    // };
 
     render() {
-        if (!this.state.artistChoices.length || !this.state.tracks.length) return null;
-        return (
-            <QuizCard state={this.state} handleNewGame={this.handleNewGame}/> 
-        )
+        const returnValue = (!this.state.player.length) 
+                ?   <form onSubmit={this.handlePlayerName}>
+                        Player Name 
+                        <input id='playerName' type='text'></input>
+                    </form>
+                :   <QuizCard 
+                        state={this.state} 
+                        handleNewGame={this.handleNewGame} 
+                        triggerNewPlayer={this.triggerNewPlayer}
+                    /> 
+
+        return returnValue;
     };
 };
 
