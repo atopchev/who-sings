@@ -1,0 +1,57 @@
+.App {
+    text-align: center;
+    margin: 20px;
+    position: relative;
+    top: 3vh;
+    font-size: 15px;
+    color: slategrey;
+    border-color: lightsteelblue;
+}
+
+.logo {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+}
+
+.App-header {
+    font-size: 4rem;
+    margin-top: 10vh;
+    margin-bottom: 5vh;
+}
+
+.player-form input {
+    margin-left: 10px;
+    width: 40vw;
+}
+
+.lyric {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    height: auto;
+    width: auto;
+    font-size: 3rem;
+    padding: 20px;
+    margin-bottom: 32px;
+}
+
+.quiz-card {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 52px;
+}
+
+button:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+input {
+    height: 40px;
+}
+
+button {
+    margin: 10px 10px;
+    border: none;
+}

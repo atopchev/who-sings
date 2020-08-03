@@ -118,16 +118,23 @@ class Game extends Component {
     // };
 
     render() {
-        const returnValue = (!this.state.player.length) 
-                ?   <form onSubmit={this.handlePlayerName}>
-                        Player Name 
-                        <input id='playerName' type='text'></input>
-                    </form>
-                :   <QuizCard 
-                        state={this.state} 
-                        handleNewGame={this.handleNewGame} 
-                        triggerNewPlayer={this.triggerNewPlayer}
-                    /> 
+        const returnValue = !this.state.player.length ? (
+          <form className="player-form" onSubmit={this.handlePlayerName}>
+            <header className="App-header"> Welcome to WhoSings!</header>
+            Player Name
+            <input
+              id="playerName"
+              type="text"
+              placeholder="Enter name and hit enter..."
+            ></input>
+          </form>
+        ) : (
+          <QuizCard
+            state={this.state}
+            handleNewGame={this.handleNewGame}
+            triggerNewPlayer={this.triggerNewPlayer}
+          />
+        ); 
 
         return returnValue;
     };

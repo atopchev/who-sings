@@ -74,17 +74,20 @@ class QuizCard extends Component {
         const choices = this.generateChoices();
         
         return (
-            <div className='quiz-card'>
-                <Lyric lyrics={track.lyrics} />
-                { shuffle(choices) }
-                <BottomNav 
-                    score={this.state.score} 
-                    n={this.state.numQuestions} 
-                    idx={this.state.lyricIdx}/>
+          <>
+            <BottomNav
+              score={this.state.score}
+              n={this.state.numQuestions}
+              idx={this.state.lyricIdx}
+            />
+            <div className="quiz-card">
+              <Lyric lyrics={track.lyrics} />
+              {shuffle(choices)}
             </div>
-        )
-    }
-}
+          </>
+        );
+    };
+};
 
 export default QuizCard;
 

@@ -5,13 +5,12 @@ import { Route, Switch } from 'react-router-dom';
 const App = () => {
   return (
     <div className="App">
-      <h1 className="App-h1"> Welcome to WhoSings!</h1>
+      <img className="logo" src="https://img.icons8.com/ios/50/000000/singing-teacher.png" />
       <Switch>
         <Route exact path="/" component={Game} />
         <Route exact path="/global-rankings" />
         <Route exact path="/my-scores" />
       </Switch>
-
     </div>
   );
 };
