@@ -10,6 +10,7 @@ import NewGameBtn from './NewGameBtn';
 class QuizCard extends Component {
     constructor(props) {
         super(props); 
+        this.key = process.env.REACT_APP_API_KEY;
         this.state = this.props.state;
         this.handleAttempt = this.handleAttempt.bind(this);
         this.handleNewGame = this.props.handleNewGame.bind(this);
@@ -31,7 +32,7 @@ class QuizCard extends Component {
 
     generateNWrongChoices(n) {
         let wrongChoices = [];
-        while (wrongChoices.length <= n) {
+        while (wrongChoices.length < n) {
           let randomArtist = this.state.artistChoices.pop();
           wrongChoices.push(
             <Artist
@@ -82,7 +83,7 @@ class QuizCard extends Component {
         console.log('state', this.state);
         const { track } = this.state.tracks[this.state.lyricIdx]
         const choices = this.generateChoices();
-        
+        debugger;
         return (
           <>
             <StatsBar

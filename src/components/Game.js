@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import QuizCard from './QuizCard';
-import { asyncForEach } from '../helpers';
+import { fetchArtists, fetchTracksAndLyrics } from '../helpers';
 
 /** 
  * This wrapper component for the purpose of making all 
@@ -27,132 +27,51 @@ class Game extends Component {
         this.triggerNewPlayer = this.triggerNewPlayer.bind(this);
     };
 
-    fetchTracks = async (key) => {
-        const res = await fetch(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=hot&page=1&page_size=${this.numQuestions}&country=us&f_has_lyrics=1&apikey=${key}`);
-        const json = await res.json();
-        const tracks = json.message.body.track_list;
-        asyncForEach(tracks, async ({ track }) => {
-            const resLyric = await fetch(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${track.track_id}&apikey=${key}`)
-            const jsonLyric = await resLyric.json();
-            track['lyrics'] = jsonLyric.message.body.lyrics.lyrics_body;
-        })
-
-        return tracks;
+    async triggerNewPlayer() {
+      await this.setState({ player: ''});
+      debugger;
+      await this.handleNewGame();
     };
 
-    fetchArtists = async (key) => {
-        const res = await fetch(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/chart.artists.get?page=1&page_size=${this.state.numQuestions * 2}&country=us&apikey=${key}`);
-        const json = await res.json();
-        const names = [];
-        json.message.body.artist_list.forEach(({ artist }) => names.push(artist.artist_name));
-
-        return names;
-    };
-
-    triggerNewPlayer() {
-      this.setState({
-        // artistChoices: this.fetchArtists(this.key),
-        // tracks: this.fetchTracks(this.key),
-        player: "",
-        numQuestions: 3,
-        attempted: false,
-        lyricIdx: 0,
-        score: 0,
-        tracks: [
-          {
-            track: {
-              lyrics: "hey there delilah what's it like in NYC...",
-              artist_name: "Plain White Tees",
-              name: "Hey there delilah",
-            },
-          },
-          {
-            track: {
-              lyrics: "hey jude...",
-              artist_name: "The Beatles",
-              name: "Hey jude",
-            },
-          },
-          {
-            track: {
-              lyrics:
-                "california, knows how to party, californiaaa, knows how...",
-              artist_name: "tupac",
-              name: "california",
-            },
-          },
-        ],
-        artistChoices: [
-          "taylor",
-          "harry",
-          "hermione",
-          "ron",
-          "snape",
-          "dumbledore",
-          "bill",
-          "sally",
-          "angela",
-          "alissa",
-        ],
-      });
-    }
-    handleNewGame() {
-        return this.setState({
-            // artistChoices: this.fetchArtists(this.key),
-            // tracks: this.fetchTracks(this.key),
+    async handleNewGame() {
+        debugger;
+        const tracks = await fetchTracksAndLyrics(this.key, this.state.numQuestions);
+        const artistChoices = await fetchArtists(this.key, this.state.numQuestions);
+        await this.setState({
+            artistChoices,
+            tracks,
             numQuestions: 3,
             attempted: false,
             lyricIdx: 0,
-            score: 0,
-            tracks: [
-                {
-                    track: {
-                        lyrics: "hey there delilah what's it like in NYC...",
-                        artist_name: "Plain White Tees",
-                        name: "Hey there delilah"
-                    }
-                },
-                {
-                    track: {
-                        lyrics: "hey jude...",
-                        artist_name: "The Beatles",
-                        name: "Hey jude"
-                    }
-                },
-                {
-                    track: {
-                        lyrics: "california, knows how to party, californiaaa, knows how...",
-                        artist_name: "tupac",
-                        name: "california"
-                    }
-                },
-            ],
-            artistChoices: ['taylor', 'harry', 'hermione', 'ron', 'snape', 'dumbledore', 'bill', 'sally', 'angela', 'alissa']
+            score: 0
         });
     }
 
     handlePlayerName(e) {
         e.preventDefault();
         let name = document.getElementById('playerName').value;
-        // this.handleNewGame();
         this.setState({ player: name }); 
     }
 
     componentWillMount() {
+      debugger;
       this.triggerNewPlayer();
     }
 
     // async componentDidMount() {
-    //     const artists = await this.fetchArtists(this.key);
-    //     const tracks = await this.fetchTracks(this.key);
-    //     this.setState({
-    //         artistChoices: artists,
-    //         tracks
-    //     })
+    //   debugger;
+    //     // const artists = await this.fetchArtists(this.key);
+    //     // const tracks = await this.fetchTracksAndLyrics(this.key, this.numQuestions);
+    //     // const tracks = await this.fetchTracksAndLyrics(this.key, 1);
+    //     // this.setState({
+    //     //     artistChoices: artists,
+    //     //     tracks
+    //     // })
+    //     this.triggerNewPlayer();
     // }
 
     render() {
-        const returnValue = !this.state.player.length ? (
+        const returnValue = (!this.state.player.length) ? (
           <form className="player-form" onSubmit={this.handlePlayerName}>
             <header className="App-header"> Welcome to WhoSings!</header>
             Player Name
@@ -169,7 +88,7 @@ class Game extends Component {
             triggerNewPlayer={this.triggerNewPlayer}
           />
         ); 
-        if (!this.state.artistChoices.length) return null;
+        debugger;
         return returnValue;
     };
 };
