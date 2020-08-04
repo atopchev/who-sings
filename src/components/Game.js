@@ -29,21 +29,61 @@ class Game extends Component {
 
     async triggerNewPlayer() {
       await this.setState({ player: ''});
-      debugger;
       await this.handleNewGame();
     };
 
     async handleNewGame() {
-        debugger;
-        const tracks = await fetchTracksAndLyrics(this.key, this.state.numQuestions);
-        const artistChoices = await fetchArtists(this.key, this.state.numQuestions);
+        // const tracks = await fetchTracksAndLyrics(this.key, this.state.numQuestions);
+        // const artistChoices = await fetchArtists(this.key, this.state.numQuestions);
         await this.setState({
-            artistChoices,
-            tracks,
-            numQuestions: 3,
-            attempted: false,
-            lyricIdx: 0,
-            score: 0
+          tracks: [
+            {
+              track: {
+                lyrics: "hey there delilah what's it like in NYC...",
+                artist_name: "Plain White Tees",
+                name: "Hey there delilah",
+              },
+            },
+            {
+              track: {
+                lyrics: "hey jude...",
+                artist_name: "The Beatles",
+                name: "Hey jude",
+              },
+            },
+            {
+              track: {
+                lyrics:
+                  "california, knows how to party, californiaaa, knows how...",
+                artist_name: "tupac",
+                name: "california",
+              },
+            },
+          ],
+          artistChoices: [
+            "taylor",
+            "harry",
+            "hermione",
+            "ron",
+            "snape",
+            "dumbledore",
+            "bill",
+            "sally",
+            "angela",
+            "alissa",
+            "bryce",
+            "bakari",
+            "julie",
+            'ian',
+            'Janice',
+            'Jill',
+          ],
+        //   artistChoices,
+        //   tracks,
+          numQuestions: 3,
+          attempted: false,
+          lyricIdx: 0,
+          score: 0,
         });
     }
 
@@ -53,22 +93,10 @@ class Game extends Component {
         this.setState({ player: name }); 
     }
 
-    componentWillMount() {
-      debugger;
-      this.triggerNewPlayer();
-    }
 
-    // async componentDidMount() {
-    //   debugger;
-    //     // const artists = await this.fetchArtists(this.key);
-    //     // const tracks = await this.fetchTracksAndLyrics(this.key, this.numQuestions);
-    //     // const tracks = await this.fetchTracksAndLyrics(this.key, 1);
-    //     // this.setState({
-    //     //     artistChoices: artists,
-    //     //     tracks
-    //     // })
-    //     this.triggerNewPlayer();
-    // }
+    componentDidMount() {
+        this.triggerNewPlayer();
+    }
 
     render() {
         const returnValue = (!this.state.player.length) ? (
@@ -88,7 +116,6 @@ class Game extends Component {
             triggerNewPlayer={this.triggerNewPlayer}
           />
         ); 
-        debugger;
         return returnValue;
     };
 };

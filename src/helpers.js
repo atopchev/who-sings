@@ -17,7 +17,6 @@ export const fetchTracksAndLyrics = async (key, n) => {
         .slice(0, 2)
         .join("\n\r");
     });
-    debugger;
 
     return tracks;
 };
@@ -32,7 +31,7 @@ export const fetchArtists = async (key, n) => {
     const json = await res.json();
     const names = [];
     json.message.body.artist_list.forEach( ({ artist }) => names.push(artist.artist_name) );
-    debugger;
+
     return names;
 };
 
@@ -45,6 +44,7 @@ export const shuffle = (arr) => {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
     };
+    
     return arr;
 };
 
@@ -73,7 +73,8 @@ export const storeScore = (player, score) => {
     existingScores[date + time] = score;
     localStorage.setItem(player, JSON.stringify(existingScores));
     updateHighScore(player, existingScores);
-}
+};
+
 /**
  * @param {*} player (name)
  * @param {*} existingScores (obj)
@@ -82,7 +83,7 @@ export const storeScore = (player, score) => {
 const updateHighScore = (player, existingScores) =>{
     const highScore = Math.max(...Object.values(existingScores));
     localStorage.setItem(`${player}-highest`, highScore);
-}
+};
 
 /**
  * Returns sorted array of player high score. 
@@ -95,12 +96,26 @@ export const getAllHighScores = () => {
         };
     };
     const sortedScores = scores.sort((a, b) => b[1] - a[1] );
+    
     return sortedScores;
-}
+};
 
 /**
- * Fake state for testing sans API calls
+ * @param {int} min (inclusive)
+ * @param {int} max (exclusive)
  */
+export const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+
+/**
+ * Fake state for fake API calls
+ */
+
         // tracks: [
         //   {
         //     track: {

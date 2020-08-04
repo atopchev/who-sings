@@ -10,6 +10,7 @@ const App = () => {
 		<div className="App">
 			<Link to="/">
 				<img
+					alt=''
 					className="logo"
 					src="https://img.icons8.com/ios/50/000000/singing-teacher.png"/>
 			</Link>

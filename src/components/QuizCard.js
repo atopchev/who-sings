@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import Lyric from './Lyric';
 import Artist from './Artist';
 import StatsBar from "./StatsBar";
-import { shuffle, storeScore } from '../helpers';
+import { shuffle, storeScore, getRandomInt } from '../helpers';
 import NewGameBtn from './NewGameBtn';
 
 
@@ -27,13 +26,14 @@ class QuizCard extends Component {
                 handleAttempt={this.handleAttempt} 
             />
         ];
-        return choices.concat( this.generateNWrongChoices(2) );
+        return choices.concat( this.generateNWrongChoices() );
     }
 
-    generateNWrongChoices(n) {
+    generateNWrongChoices() {
         let wrongChoices = [];
-        while (wrongChoices.length < n) {
-          let randomArtist = this.state.artistChoices.pop();
+        while (wrongChoices.length < 2) {
+          let randomIdx = getRandomInt(0, this.state.numQuestions*2 );
+          let randomArtist = this.state.artistChoices[randomIdx];
           wrongChoices.push(
             <Artist
               name={randomArtist}
@@ -83,7 +83,6 @@ class QuizCard extends Component {
         console.log('state', this.state);
         const { track } = this.state.tracks[this.state.lyricIdx]
         const choices = this.generateChoices();
-        debugger;
         return (
           <>
             <StatsBar

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { getAllHighScores } from '../helpers';
 import Score from './Score';
 import TableWrapper from './TableWrapper';
@@ -14,10 +14,13 @@ const GlobalScore = () => {
     })
     
     return (
-        <>
-            <p className="table-header"> High Score Rankings 🏆</p>
-            <TableWrapper rowData={sortedScores} collumn={'Name'} />
-        </>
+      <>
+        <p className="table-header">
+          {" "}
+          High Score Rankings <span role='img' aria-label='jsx-ally'>🏆</span>
+        </p>
+        <TableWrapper rowData={sortedScores} collumn={"Name"} />
+      </>
     );
 };
 
