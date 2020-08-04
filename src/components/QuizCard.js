@@ -32,8 +32,7 @@ class QuizCard extends Component {
     generateNWrongChoices() {
         let wrongChoices = [];
         while (wrongChoices.length < 2) {
-          let randomIdx = getRandomInt(0, this.state.numQuestions*2 );
-          let randomArtist = this.state.artistChoices[randomIdx];
+          let randomArtist = this.state.artistChoices.pop();
           wrongChoices.push(
             <Artist
               name={randomArtist}
