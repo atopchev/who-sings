@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Lyric from './Lyric';
 import Artist from './Artist';
 import StatsBar from "./StatsBar";
-import { shuffle, storeScore, getRandomInt } from '../helpers';
+import { shuffle, storeScore } from '../helpers';
 import NewGameBtn from './NewGameBtn';
 
 
@@ -18,7 +18,7 @@ class QuizCard extends Component {
     generateChoices() {
         const { tracks, lyricIdx } = this.state;
         const correctAnswer = tracks[lyricIdx].track.artist_name;
-        const choices = [
+        const correctChoice = [
             <Artist 
                 name={correctAnswer} 
                 key={correctAnswer} 
@@ -26,13 +26,13 @@ class QuizCard extends Component {
                 handleAttempt={this.handleAttempt} 
             />
         ];
-        return choices.concat( this.generateNWrongChoices() );
+        return correctChoice.concat( this.generateWrongChoices() );
     }
 
-    generateNWrongChoices() {
+    generateWrongChoices() {
         let wrongChoices = [];
         while (wrongChoices.length < 2) {
-          let randomArtist = this.state.artistChoices.pop();
+          let randomArtist = this.state.artistChoices.pop(); // => rename artistChoices => wrongChoices
           wrongChoices.push(
             <Artist
               name={randomArtist}
@@ -42,6 +42,7 @@ class QuizCard extends Component {
             />
           );
         }
+        debugger;
         return wrongChoices;
     }
 

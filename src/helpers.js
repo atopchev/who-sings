@@ -17,7 +17,7 @@ export const fetchTracksAndLyrics = async (key, n) => {
         .slice(0, 2)
         .join("\n\r");
     });
-
+    debugger;
     return tracks;
 };
 
@@ -31,7 +31,7 @@ export const fetchArtists = async (key, n) => {
     const json = await res.json();
     const names = [];
     json.message.body.artist_list.forEach( ({ artist }) => names.push(artist.artist_name) );
-
+    debugger;
     return names;
 };
 
@@ -154,3 +154,26 @@ export const getRandomInt = (min, max) => {
         //     "Leon Bridges",
         //     "Julie"
         //   ],
+
+export const generateWrongChoicesOffline = (wrongChoices, n) => {
+    let offlineArtistPool = [
+            "Taylor",
+            "Harry",
+            "Glass Animals",
+            "Janis Joplin",
+            "Andrea Bocelli",
+            "Luciano Pavarotti",
+            "Sylvan Esso",
+            "Radio Head",
+            "Roger Waters",
+            "Haim",
+            "Leon Bridges",
+            "Julie"
+          ];
+
+    while (wrongChoices.length < n * 2) {
+        wrongChoices.push(offlineArtistPool.pop());
+    }
+
+    return wrongChoices;
+}
