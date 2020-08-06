@@ -17,7 +17,6 @@ export const fetchTracksAndLyrics = async (key, n) => {
         .slice(0, 2)
         .join("\n\r");
     });
-    debugger;
     return tracks;
 };
 
@@ -31,7 +30,7 @@ export const fetchArtists = async (key, n) => {
     const json = await res.json();
     const names = [];
     json.message.body.artist_list.forEach( ({ artist }) => names.push(artist.artist_name) );
-    debugger;
+
     return names;
 };
 

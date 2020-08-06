@@ -42,7 +42,6 @@ class QuizCard extends Component {
             />
           );
         }
-        debugger;
         return wrongChoices;
     }
 

@@ -34,7 +34,6 @@ class Game extends Component {
 	};
 
 	async handleNewGame() {
-		debugger;
 		let [tracks, artistChoices] = await Promise.all([
 			await fetchTracksAndLyrics(this.key, this.state.numQuestions),
 			await fetchArtists(this.key, this.state.numQuestions)
@@ -67,7 +66,6 @@ class Game extends Component {
 	}
 
 	componentWillMount() {
-		debugger;
 		this.handleNewGame();
 	} 
 
@@ -89,7 +87,6 @@ class Game extends Component {
 		  triggerNewPlayer={this.triggerNewPlayer}
 		/>
 	  ); 
-	//   debugger;
 	  console.log('render', this.state);
 	  return returnValue;
   };
