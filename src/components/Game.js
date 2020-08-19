@@ -39,9 +39,9 @@ class Game extends Component {
 			await fetchArtists(this.key, this.state.numQuestions)
 		]);
 		// ** If API offline, seed with custom data:
-		// if (artistChoices.length < this.state.numQuestions*2 ) {
-		// 	artistChoices = generateWrongChoicesOffline(artistChoices, this.state.numQuestions);
-		// }
+		if (artistChoices.length < this.state.numQuestions*2 ) {
+			artistChoices = generateWrongChoicesOffline(artistChoices, this.state.numQuestions);
+		}
 		this.setState({
 			artistChoices,
 			tracks,
@@ -53,10 +53,7 @@ class Game extends Component {
 	}
 
 	async componentDidMount() {
-		// fetch(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/chart.artists.get?page=1&page_size=${n * 2}&country=us&apikey=${key}`);
-			// .then(res => res.json())
-		// 	.then()
-		// const json = await res.json();
+		this.handleNewGame();
 	}
 
 	handlePlayerName(e) {
@@ -65,9 +62,9 @@ class Game extends Component {
 		this.setState({ player: name });
 	}
 
-	componentWillMount() {
-		this.handleNewGame();
-	} 
+	// async componentWillMount() {
+	// 	await this.handleNewGame();
+	// } 
 
   render() {
 	const returnValue = (!this.state.player.length) ? (
@@ -87,7 +84,6 @@ class Game extends Component {
 		  triggerNewPlayer={this.triggerNewPlayer}
 		/>
 	  ); 
-	  console.log('render', this.state);
 	  return returnValue;
   };
 };
